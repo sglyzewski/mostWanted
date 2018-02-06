@@ -5,6 +5,7 @@ Build all of your functions for displaying and gathering information below (GUI)
 // app is the function called to start the entire application
 addAgeToObject(people);
 
+mainMenu("Uma Bob", people);
 
 function promptFor(question, valid){
   do{
@@ -19,7 +20,8 @@ function checkIfString(entry) {
   }
 }
 
-function userInterface(){
+
+/*function userInterface(){
   let firstSearch = promptFor("Welcome to the 'Most Wanted' propotype person search. Type 'n' to search for a person's information by name. Type 't' to search for a person's information by their traits." );
   let keepSearching = true;
   while (keepSearching) {
@@ -34,6 +36,7 @@ function userInterface(){
   }
 }
 }
+*/
 
 function storeSearches(search) {
   //create an array of all the names that have been searched for
@@ -96,17 +99,29 @@ function searchByWeight(people) {
 function mainMenu(person, people){
 
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
-
+  person = person.split(" ");
   if(!person){
     alert("Could not find that individual.");
     return app(people); // restart
   }
 
-  var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+
+  person.firstName = person[0];
+  person.lastName = person[1];
+  let info = people.filter(function(el) {
+    if ((el.firstName === person.firstName) && (el.lastName === person.lastName)){
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+
+  var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'", checkIfString(displayOption));
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+      console.log(info);
     break;
     case "family":
     // TODO: get person's family
@@ -150,11 +165,11 @@ function displayPerson(person){
 
 // function that prompts and validates user input
 function addAgeToObject(people) {
-  let peopleWithAge = people.map(function(el){
+  people = people.map(function(el){
 	   el.age = getAge(el.dob);
 	   return el;
     });
-  return(peopleWithAge);
+  return people;
 }
 
 function getAge(dateElement) {
