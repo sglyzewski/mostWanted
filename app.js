@@ -3,26 +3,62 @@ Build all of your functions for displaying and gathering information below (GUI)
 */
 
 // app is the function called to start the entire application
+addAgeToObject(people);
+
+
+function promptFor(question, valid){
+  do{
+    var response = prompt(question).trim();
+  } while(!response || !valid(response));
+  return response;
+}
+
+function checkIfString(entry) {
+  if (typeof entry === 'string') {
+    return true;
+  }
+}
+
+function userInterface(){
+  let firstSearch = promptFor("Welcome to the 'Most Wanted' propotype person search. Type 'n' to search for a person's information by name. Type 't' to search for a person's information by their traits." );
+  let keepSearching = true;
+  while (keepSearching) {
+  if (firstSearch.toLowerCase() === 'n') {
+    searchByName();
+  }
+  else if (firstSearch.toLowerCase() === 't') {
+    searchByTraits();
+  }
+  else {
+    alert("Uh oh, you've entered invalid search critera. Make sure you are typing just 'n' to search by name or just 't' to search by a trait.")
+  }
+}
+}
+
+function storeSearches(search) {
+  //create an array of all the names that have been searched for
+}
+
 function app(people){
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  var people = data;
   switch(searchType){
     case 'yes':
-    // TODO: search by name
+    searchByName();
     break;
     case 'no':
     searchByTraits(people);
     break;
     default:
-    alert("Wrong! Please try again, following the instructions dummy. :)");
-    app(people); // restart app
+    alert("Uh oh! You have entered invalid input. Please try searching again following instructions.)");
+    app(); // restart app
     break;
   }
 }
 
 function searchByTraits(people) {
-  let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.");
+  let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.", checkIfString(userSearchChoice));
   let filteredPeople;
-
   switch(userSearchChoice) {
     case "height":
       filteredPeople = searchByHeight(people);
@@ -35,7 +71,7 @@ function searchByTraits(people) {
       alert("You entered an invalid search type! Please try again.");
       searchByTraits(people);
       break;
-  }  
+  }
 
   let foundPerson = filteredPeople[0];
 
@@ -88,13 +124,13 @@ function mainMenu(person, people){
   }
 }
 
-function searchByName(people){
-  var firstName = promptFor("What is the person's first name?", chars);
-  var lastName = promptFor("What is the person's last name?", chars);
+/* function searchByName(people){
+  var firstName = promptFor("What is the person's first name?", checkIfString(people));
+  var lastName = promptFor("What is the person's last name?", checkIfString(people)));
 
   // TODO: find the person using the name they entered
 
-}
+} */
 
 // alerts a list of people
 function displayPeople(people){
@@ -113,12 +149,34 @@ function displayPerson(person){
 }
 
 // function that prompts and validates user input
-function promptFor(question, valid){
-  do{
-    var response = prompt(question).trim();
-  } while(!response || !valid(response));
-  return response;
+function addAgeToObject(people) {
+  let peopleWithAge = people.map(function(el){
+	   el.age = getAge(el.dob);
+	   return el;
+    });
+  return(peopleWithAge);
 }
+
+function getAge(dateElement) {
+  var date1 = new Date(getCurrentDate());
+  var date2 = new Date(dateElement);
+  var timeDifference = Math.abs(date2.getTime() - date1.getTime());
+  var differentDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
+  //must round down with age!
+  var age = Math.floor((differentDays / 365));
+  return age;
+}
+
+
+function getCurrentDate() {
+  var date = new Date();
+  var currentDate = "";
+    currentDate += (date.getMonth() + 1) + "/";
+     currentDate += date.getDate() + "/";
+     currentDate += date.getFullYear();
+  return currentDate;
+}
+
 
 // helper function to pass into promptFor to validate yes/no answers
 function yesNo(input){
