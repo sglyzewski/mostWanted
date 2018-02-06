@@ -13,7 +13,7 @@ function app(people){
     searchByTraits(people);
     break;
     default:
-    alert("Wrong! Please try again, following the instructions dummy. :)");
+    alert("Wrong! Please try again, follow the instructions dummy. :)");
     app(people); // restart app
     break;
   }
