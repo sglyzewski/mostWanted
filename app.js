@@ -100,15 +100,14 @@ function searchByWeight(people) {
   return newArray;
 }
 
-function mainMenu(personID, people){
-  let person = people.filter(function (el) {
-    if(el.id == personID) {
+function mainMenu(person, people){
+/*  person = people.filter(function (el) {
+    if(el.id == person.id) {
       return true;
     }
-  });
-  let name = person[0].firstName + person[0].lastName
+  }); */
 
-  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
     case "info":
@@ -136,7 +135,7 @@ function searchByName(people){
   var firstName = promptFor("What is the person's first name?", checkIfString);
   var lastName = promptFor("What is the person's last name?", checkIfString);;
   let newArray = people.filter(function (el) {
-    if(el.name == firstName && lastName) {
+    if((el.firstName == firstName) && (el.lastName == lastName)) {
       return true;
     }
   });
