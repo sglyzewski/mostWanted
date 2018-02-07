@@ -3,8 +3,6 @@ Build all of your functions for displaying and gathering information below (GUI)
 */
 
 // app is the function called to start the entire application
-addAgeToObject(data);
-mainMenu("Uma Bob", data);
 
 function promptFor(question, valid){
   do{
@@ -43,10 +41,10 @@ function storeSearches(search) {
 
 function app(people){
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
-  var people = data;
+  var people = addAgeToObject(data);
   switch(searchType){
     case 'yes':
-    searchByName();
+    mainMenu(searchByName(people), people);
     break;
     case 'no':
     searchByTraits(people);
@@ -68,14 +66,18 @@ function searchByTraits(people) {
     case "weight":
       filteredPeople = searchByWeight(people);
       break;
-    case "eye color"
+    case "eye color":
       filteredPeople = SearchByEyeColor(people);
-    case "gender"
+      break;
+    case "gender":
       filteredPeople = searchByGender(people);
-    case "age"
+      break;
+    case "age":
       filteredPeople = getAge(dateElement);
-    case "occupation"
+      break;
+    case "occupation" :
       filteredPeople = SearchByOccupation(input);
+      break;
     default:
       alert("You entered an invalid search type! Please try again.");
       searchByTraits(people);
@@ -102,36 +104,22 @@ function searchByWeight(people) {
 }
 
 // Menu function to call once you find who you are looking for
-function mainMenu(person, people){
-
-  /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
-  person = person.split(" ");
-  if(!person){
-    alert("Could not find that individual.");
-    return app(people); // restart
-  }
-
-
-  person.firstName = person[0];
-  person.lastName = person[1];
-  let info = people.filter(function(el) {
-    if ((el.firstName === person.firstName) && (el.lastName === person.lastName)){
+function mainMenu(personID, people){
+  let person = people.filter(function (el) {
+    if(el.id == personID) {
       return true;
     }
-    else {
-      return false;
-    }
+    // return true if el.height matches userInputHeight
   });
+  let name = person[0].firstName + person[0].lastName
 
-  var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'", checkIfString(displayOption));
+  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
     case "info":
-      //displayPerson(info);
-      displayPerson(info);
+      displayPerson(person);
     break;
     case "family":
-      displayPeople(findFamily(info, people));
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -146,13 +134,25 @@ function mainMenu(person, people){
   }
 }
 
-/* function searchByName(people){
-  var firstName = promptFor("What is the person's first name?", checkIfString(people));
-  var lastName = promptFor("What is the person's last name?", checkIfString(people)));
 
-  // TODO: find the person using the name they entered
 
-} */
+
+
+function searchByName(people) {
+  var firstName = prompt("What is the person's first name?").toLowerCase();
+  var lastName = prompt("What is the person's last name?").toLowerCase();
+
+  let newArray = people.filter(function (el) {
+    if((el.firstName.toLowerCase() == firstName) && (el.lastName.toLowerCase() == lastName)) {
+      return true;
+    }
+  });
+
+  return newArray[0].id;
+}
+
+
+
 
 // alerts a list of people
 function displayPeople(people){
@@ -245,7 +245,7 @@ function searchByOccupaton(people){
 }
 
 function searchByEyecolor(people){
-   let userEyeColor = prompt("What is the individuals eye color?");
+  let userEyeColor = prompt("What is the individuals eye color?");
 
   let newArray = people.filter(function (el) {
     if(el.eyecolor == userInputEyeColor) {
@@ -266,4 +266,8 @@ function searchByGender(people){
   });
 
   return newArray;
+}
+
+function name(input){
+  return true;
 }
