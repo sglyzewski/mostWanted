@@ -86,24 +86,23 @@ function searchByWeight(people) {
 function mainMenu(person, people){
 
   let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-
   switch(displayOption){
     case "info":
-      displayPerson(person);
+      alert("The following is " + person.firstName + " " + person.lastName + "'s personal info: \n\n" + displayPerson(person));
     break;
     case "family":
-      displayPeople(findFamily(person, people));
+      alert("The following are " + person.firstName + " " + person.lastName + "'s family members: \n\n" + displayPeople(findFamily(person, people)));
     break;
     case "descendants":
-    // TODO: get person's descendants
+      alert("The following are " + person.firstName + " " + person.lastName + "'s descendants: \n\n" + displayPeople(findDescendants(person, people)));
     break;
     case "restart":
-    app(people); // restart
+    app(people);
     break;
     case "quit":
-    return; // stop execution
+    return;
     default:
-    return mainMenu(person, people); // ask again
+    return mainMenu(person, people);
   }
 }
 
@@ -117,11 +116,15 @@ function searchByName(people){
   });
   return newArray[0];
 }
-// alerts a list of people
+
+
+
+
+
 function displayPeople(people){
-  alert(people.map(function(person){
+  return people.map(function(person){
     return person.firstName + " " + person.lastName;
-  }).join("\n"));
+  }).join("\n");
 }
 
 
@@ -165,7 +168,7 @@ function findFamily (person, people) {
 
   if (siblings != null) {
     for(let i = 0; i < siblings.length; i ++){
-      newArray.push(siblings);
+      newArray.push(siblings[i]);
     }
   }
 
@@ -177,18 +180,33 @@ function findFamily (person, people) {
 
   if (spouse != null) {
     for(let i = 0; i < spouse.length; i ++){
-    newArray.push(spouse);
+    newArray.push(spouse[i]);
   }
 }
 
   if (parents != null) {
     for(let i = 0; i < parents.length; i ++) {
-      newArray.push(parents);
+      newArray.push(parents[i]);
     }
   }
 
   return newArray;
 }
+
+
+
+function findDescendants(person, people) {
+  let descendants = findChildren(person, people);
+  for(let i = 0; i < descendants.length; i++) {
+    let grandchildren = findChildren(descendants[i], people);
+    if(grandchildren != undefined) {
+      for(let j  =0; j < grandchildren.length; j++) {
+      descendants.push(grandchildren[j])
+    }
+  }
+  }
+  return descendants;
+  }
 
 
 function findSiblings(person, people) {
