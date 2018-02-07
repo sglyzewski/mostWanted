@@ -114,9 +114,9 @@ function mainMenu(person, people){
       displayPerson(person);
     break;
     case "family":
-      displayPeople(findSpouse(person));
-      displayPeople(findChildren(person));
-      displayPeople(findSiblings(person));
+      displayPeople(findSpouse(person[0], people));
+      displayPeople(findChildren(person[0], people));
+      displayPeople(findSiblings(person[0], people));
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -151,7 +151,7 @@ function displayPeople(people){
 
 function findSpouse(person, people) {
   let newArray = people.filter(function(el) {
-    if (el.currentSpouse == person[0].id) {
+    if (el.currentSpouse == person.id) {
       return true;
     }
   });
@@ -162,7 +162,7 @@ function findSpouse(person, people) {
 function findChildren(person, people) {
   let newArray = people.filter(function(el) {
     for (let i = 0; i < el.parents.length; i++)
-      if(el.parents[i] == person[0].id ) {
+      if(el.parents[i] == person.id ) {
         return true;
     }
   });
@@ -175,10 +175,10 @@ function findChildren(person, people) {
 function findSiblings(person, people) {
   let newArray = people.filter(function (el) {
     for (let i = 0; i < (el.parents).length; i++) {
-      if(person[0] == el) {
+      if(person == el) {
         return false;
       }
-      if(person[0].parents.includes(el.parents[i]) ) {
+      if(person.parents.includes(el.parents[i]) ) {
         return true;
     }
   }
