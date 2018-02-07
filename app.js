@@ -17,23 +17,6 @@ function checkIfString(entry) {
 }
 
 
-function userInterface(){
-  let firstSearch = prompt("Welcome to the 'Most Wanted' propotype person search. Type 'n' to search for a person's information by name. Type 't' to search for a person's information by their traits." );
-  let keepSearching = true;
-  while (keepSearching) {
-  if (firstSearch.toLowerCase() === 'n') {
-    searchByName();
-  }
-  else if (firstSearch.toLowerCase() === 't') {
-    searchByTraits();
-  }
-  else {
-    alert("Uh oh, you've entered invalid search critera. Make sure you are typing just 'n' to search by name or just 't' to search by a trait.")
-  }
-}
-}
-
-
 function storeSearches(search) {
   //create an array of all the names that have been searched for
 }
@@ -101,22 +84,15 @@ function searchByWeight(people) {
 }
 
 function mainMenu(person, people){
-/*  person = people.filter(function (el) {
-    if(el.id == person.id) {
-      return true;
-    }
-  }); */
 
-  let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
     case "info":
       displayPerson(person);
     break;
     case "family":
-      displayPeople(findSpouse(person[0], people));
-      displayPeople(findChildren(person[0], people));
-      displayPeople(findSiblings(person[0], people));
+      displayPeople(findFamily(person, people));
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -139,7 +115,7 @@ function searchByName(people){
       return true;
     }
   });
-  return newArray;
+  return newArray[0];
 }
 // alerts a list of people
 function displayPeople(people){
@@ -169,7 +145,50 @@ function findChildren(person, people) {
   return newArray;
 }
 
+function findParents(person, people) {
+  let newArray = people.filter(function(el) {
+      if((person.parents).includes(el.id)) {
+        return true;
+      }
 
+    });
+    return newArray;
+  }
+
+
+function findFamily (person, people) {
+  let newArray = [];
+  let siblings = findSiblings(person, people);
+  let children = findChildren(person, people);
+  let spouse = findSpouse(person, people);
+  let parents = findParents(person, people);
+
+  if (siblings != null) {
+    for(let i = 0; i < siblings.length; i ++){
+      newArray.push(siblings);
+    }
+  }
+
+  if (children != null) {
+    for(let i = 0; i < children.length; i ++){
+      newArray.push(children[i]);
+    }
+  }
+
+  if (spouse != null) {
+    for(let i = 0; i < spouse.length; i ++){
+    newArray.push(spouse);
+  }
+}
+
+  if (parents != null) {
+    for(let i = 0; i < parents.length; i ++) {
+      newArray.push(parents);
+    }
+  }
+
+  return newArray;
+}
 
 
 function findSiblings(person, people) {
@@ -183,12 +202,11 @@ function findSiblings(person, people) {
     }
   }
   });
-  return newArray;
+  return newArray[0];
 }
 
 
 function displayPerson(person){
-  person = person[0];
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
