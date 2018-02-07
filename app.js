@@ -3,9 +3,8 @@ Build all of your functions for displaying and gathering information below (GUI)
 */
 
 // app is the function called to start the entire application
-addAgeToObject(people);
-
-mainMenu("Uma Bob", people);
+addAgeToObject(data);
+mainMenu("Uma Bob", data);
 
 function promptFor(question, valid){
   do{
@@ -21,7 +20,7 @@ function checkIfString(entry) {
 }
 
 
-/*function userInterface(){
+function userInterface(){
   let firstSearch = promptFor("Welcome to the 'Most Wanted' propotype person search. Type 'n' to search for a person's information by name. Type 't' to search for a person's information by their traits." );
   let keepSearching = true;
   while (keepSearching) {
@@ -36,7 +35,7 @@ function checkIfString(entry) {
   }
 }
 }
-*/
+
 
 function storeSearches(search) {
   //create an array of all the names that have been searched for
@@ -60,7 +59,7 @@ function app(people){
 }
 
 function searchByTraits(people) {
-  let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.", checkIfString(userSearchChoice));
+  let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.");
   let filteredPeople;
   switch(userSearchChoice) {
     case "height":
@@ -121,10 +120,11 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-      console.log(info);
+      //displayPerson(info);
+      displayPerson(info);
     break;
     case "family":
-    // TODO: get person's family
+      displayPeople(findFamily(info, people));
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -154,16 +154,36 @@ function displayPeople(people){
   }).join("\n"));
 }
 
+
+function findFamily(person, people) {
+  let family;
+  family = people.map(function (el) {
+    if (Object.values(people).indexOf(person.id) > -1) {
+      return true;
+    }
+  });
+  return family;
+}
+
 function displayPerson(person){
+  person = person[0];
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
-  // TODO: finish getting the rest of the information to display
+  personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "Age: " + person.age + "\n";
+  personInfo += "Date of Birth: " + person.dob + "\n";
+  personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Eye Color: " + person.eyeColor + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
   alert(personInfo);
+
 }
 
-// function that prompts and validates user input
+
 function addAgeToObject(people) {
   people = people.map(function(el){
 	   el.age = getAge(el.dob);
