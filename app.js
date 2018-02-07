@@ -3,12 +3,7 @@ Build all of your functions for displaying and gathering information below (GUI)
 */
 
 // app is the function called to start the entire application
-addAgeToObject(people);
-getAge(people);
-getCurrentDate(people);
-searchByOccupation(people);
-searchByEyecolor(people);
-searchByGender(people);
+
 
 function promptFor(question, valid){
   do{
@@ -24,7 +19,7 @@ function checkIfString(entry) {
 }
 
 function userInterface(){
-  let firstSearch = promptFor("Welcome to the 'Most Wanted' propotype person search. Type 'n' to search for a person's information by name. Type 't' to search for a person's information by their traits." );
+  let firstSearch = prompt("Welcome to the 'Most Wanted' propotype person search. Type 'n' to search for a person's information by name. Type 't' to search for a person's information by their traits." );
   let keepSearching = true;
   while (keepSearching) {
   if (firstSearch.toLowerCase() === 'n') {
@@ -44,11 +39,11 @@ function storeSearches(search) {
 }
 
 function app(people){
-  var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo);
   var people = data;
   switch(searchType){
     case 'yes':
-    searchByName();
+    searchByName(people);
     break;
     case 'no':
     searchByTraits(people);
@@ -61,7 +56,7 @@ function app(people){
 }
 
 function searchByTraits(people) {
-  let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.", checkIfString(userSearchChoice));
+  let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.", checkIfString());
   let filteredPeople;
   switch(userSearchChoice) {
     case "height":
@@ -138,14 +133,12 @@ function mainMenu(person, people){
   }
 }
 
-/* function searchByName(people){
-  var firstName = promptFor("What is the person's first name?", checkIfString(people));
-  var lastName = promptFor("What is the person's last name?", checkIfString(people)));
+function searchByName(people){
+  var firstName = promptFor("What is the person's first name?", checkIfString);
+  var lastName = promptFor("What is the person's last name?", checkIfString);
 
-  // TODO: find the person using the name they entered
-
-} */
-
+  // TODO: find the person using the name they entered}
+}
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
@@ -232,4 +225,4 @@ function searchByGender(people){
     }
   });
   return newArray;
-}
+  }
