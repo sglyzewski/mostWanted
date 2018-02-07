@@ -5,7 +5,7 @@ Build all of your functions for displaying and gathering information below (GUI)
 // app is the function called to start the entire application
 
 function promptFor(question, valid){
-  do{
+  do {
     var response = prompt(question).trim();
   } while(!response || !valid(response));
   return response;
@@ -97,19 +97,16 @@ function searchByWeight(people) {
     if(el.weight == userInputWeight) {
       return true;
     }
-    // return true if el.height matches userInputHeight
   });
 
   return newArray;
 }
 
-// Menu function to call once you find who you are looking for
 function mainMenu(personID, people){
   let person = people.filter(function (el) {
     if(el.id == personID) {
       return true;
     }
-    // return true if el.height matches userInputHeight
   });
   let name = person[0].firstName + person[0].lastName
 
@@ -120,6 +117,9 @@ function mainMenu(personID, people){
       displayPerson(person);
     break;
     case "family":
+      displayPeople(findSpouse(person));
+      displayPeople(findChildren(person));
+      displayPeople(findSiblings(person));
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -154,7 +154,6 @@ function searchByName(people) {
 
 
 
-// alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
@@ -162,15 +161,43 @@ function displayPeople(people){
 }
 
 
-function findFamily(person, people) {
-  let family;
-  family = people.map(function (el) {
-    if (Object.values(people).indexOf(person.id) > -1) {
+function findSpouse(person, people) {
+  let newArray = people.filter(function(el) {
+    if (el.currentSpouse == person[0].id) {
       return true;
     }
   });
-  return family;
+  return newArray;
 }
+
+
+function findChildren(person, people) {
+  let newArray = people.filter(function(el) {
+    for (let i = 0; i < el.parents.length; i++)
+      if(el.parents[i] == person[0].id ) {
+        return true;
+    }
+  });
+  return newArray;
+}
+
+
+
+
+function findSiblings(person, people) {
+  let newArray = people.filter(function (el) {
+    for (let i = 0; i < (el.parents).length; i++) {
+      if(person[0] == el) {
+        return false;
+      }
+      if(person[0].parents.includes(el.parents[i]) ) {
+        return true;
+    }
+  }
+  });
+  return newArray;
+}
+
 
 function displayPerson(person){
   person = person[0];
@@ -241,8 +268,10 @@ function searchByOccupaton(people){
   });
 
   return newArray;
-
 }
+
+
+
 
 function searchByEyecolor(people){
   let userEyeColor = prompt("What is the individuals eye color?");
