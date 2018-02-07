@@ -135,9 +135,13 @@ function mainMenu(person, people){
 
 function searchByName(people){
   var firstName = promptFor("What is the person's first name?", checkIfString);
-  var lastName = promptFor("What is the person's last name?", checkIfString);
-
-  // TODO: find the person using the name they entered}
+  var lastName = promptFor("What is the person's last name?", checkIfString);;
+  let newArray = people.filter(function (el) {
+    if(el.name == firstName && lastName) {
+      return true;
+    }
+  });
+  return newArray;
 }
 // alerts a list of people
 function displayPeople(people){
