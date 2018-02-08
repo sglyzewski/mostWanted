@@ -30,20 +30,11 @@ function app(people){
   }
 }
 
-function searchByWeight(people) {
-  let userInputWeight = prompt("How much does the person weigh?");
-  let newArray = people.filter(function (el) {
-    if(el.weight == userInputWeight) {
-      return true;
-    }
-  });
 
-  return newArray;
-}
 
 function mainMenu(person, people){
 
-  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want, 'restart' to go back to the start, or 'quit' to exit the program.");
   switch(displayOption){
     case "info":
       alert(("The following is " + person.firstName + " " + person.lastName + "'s personal info: \n\n" + displayPerson(person)));
@@ -63,7 +54,8 @@ function mainMenu(person, people){
     case "quit":
       return;
     default:
-      return mainMenu(person, people);
+      alert("You've entered invalid input. Let me take you back.");
+      mainMenu(person, people);
   }
 }
 
@@ -217,8 +209,19 @@ function chars(input){
   return true;
 }
 
+function searchByWeight(people) {
+  let userInputWeight = prompt("How much does the person weigh?");
+  let newArray = people.filter(function (el) {
+    if(el.weight == userInputWeight) {
+      return true;
+    }
+  });
+
+  return newArray;
+}
+
 function searchByOccupation(people){
-  let userInputOccupation = prompt("What is the indivuduals occupation?");
+  let userInputOccupation = prompt("What is the person's occupation?");
   let newArray = people.filter(function (el) {
     if(el.occupation == userInputOccupation) {
       return true;
@@ -229,7 +232,7 @@ function searchByOccupation(people){
 }
 
 function searchByHeight(people){
-  let userInputHeight = prompt("What is the indivuduals height?");
+  let userInputHeight = prompt("What is the person's height?");
   let newArray = people.filter(function (el) {
     if(el.height == userInputHeight) {
       return true;
@@ -240,7 +243,7 @@ function searchByHeight(people){
 }
 
 function searchByEyeColor(people){
-  let userInputEyeColor = prompt("What is the individuals eye color?");
+  let userInputEyeColor = prompt("What is the person's eye color?");
   let newArray = people.filter(function (el) {
     if(el.eyeColor == userInputEyeColor) {
       return true;
@@ -250,7 +253,7 @@ function searchByEyeColor(people){
 }
 
 function searchByGender(people){
-  let userInputGender = prompt("What is the individuals gender?");
+  let userInputGender = prompt("What is the person's gender?");
   let newArray = people.filter(function (el) {
     if(el.gender == userInputGender) {
       return true;
@@ -260,7 +263,7 @@ function searchByGender(people){
   }
 
 function searchByAge(people){
-  let userInputAge = prompt("What is the individuals age?");
+  let userInputAge = prompt("What is the person's age?");
   let newArray = people.filter(function (el) {
     if(el.age == userInputAge) {
       return true;
