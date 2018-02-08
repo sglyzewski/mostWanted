@@ -94,7 +94,7 @@ function mainMenu(person, people){
   let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
   switch(displayOption){
     case "info":
-      alert("The following is " + person.firstName + " " + person.lastName + "'s personal info: \n\n" + displayPerson(person));
+      alert(("The following is " + person.firstName + " " + person.lastName + "'s personal info: \n\n" + displayPerson(person)));
     break;
     case "family":
       alert("The following are " + person.firstName + " " + person.lastName + "'s family members: \n\n" + displayPeople(findFamily(person, people)));
@@ -122,7 +122,6 @@ function searchByName(people){
   });
   return newArray[0];
 }
-
 
 
 
@@ -207,16 +206,16 @@ function findFamily (person, people) {
 
 function findDescendants(person, people) {
   let descendants = findChildren(person, people);
+
   for(let i = 0; i < descendants.length; i++) {
-    let grandchildren = findChildren(descendants[i], people);
-    if(grandchildren != undefined) {
-      for(let j  =0; j < grandchildren.length; j++) {
-      descendants.push(grandchildren[j])
-    }
+    descendants = descendants.concat(findDescendants(descendants[i], people));
   }
-  }
+
   return descendants;
-  }
+}
+
+
+
 
 
 function findSiblings(person, people) {
@@ -235,8 +234,6 @@ function findSiblings(person, people) {
 
 
 function displayPerson(person){
-  // print all of the information about a person:
-  // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
   personInfo += "Gender: " + person.gender + "\n";
@@ -247,8 +244,7 @@ function displayPerson(person){
   personInfo += "Weight: " + person.weight + "\n";
   personInfo += "Eye Color: " + person.eyeColor + "\n";
   personInfo += "Occupation: " + person.occupation + "\n";
-  alert(personInfo);
-
+  return personInfo;
 }
 
 
@@ -265,7 +261,6 @@ function getAge(dateElement) {
   var date2 = new Date(dateElement);
   var timeDifference = Math.abs(date2.getTime() - date1.getTime());
   var differentDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
-  //must round down with age!
   var age = Math.floor((differentDays / 365));
   return age;
 }
@@ -281,15 +276,13 @@ function getCurrentDate() {
 }
 
 
-// helper function to pass into promptFor to validate yes/no answers
-
 function yesNo(input){
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
 
-// helper function to pass in as default promptFor validation
+
 function chars(input){
-  return true; // default validation only
+  return true;
 }
 
 
@@ -345,4 +338,52 @@ function searchByAge(people){
   });
 
   return newArray;
+}
+
+
+
+
+function searchByTraits(people) {
+ let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.", checkIfString());
+ let filteredPeople;
+ let foundPerson;
+   switch(userSearchChoice) {
+   case "height":
+     filteredPeople = searchByHeight(people);
+     alert(displayPeople(filteredPeople));
+     break;
+   case "weight":
+     filteredPeople = searchByWeight(people);
+     alert(displayPeople(filteredPeople));
+     break;
+   case "eye color":
+     filteredPeople = searchByEyeColor(people);
+     alert(displayPeople(filteredPeople));
+     break;
+   case "gender":
+     filteredPeople = searchByGender(people);
+     alert(displayPeople(filteredPeople));
+     break;
+   case "age":
+     filteredPeople = searchByAge(people);
+     alert(displayPeople(filteredPeople));
+     break;
+   case "occupation":
+     filteredPeople = searchByOccupation(people);
+     alert(displayPeople(filteredPeople));
+   default:
+     alert("You entered an invalid search type! Please try again.");
+     break;
+ return searchByTraits(people)
+ }
+ userSearchChoice = prompt("Would you like to search the list again?");
+     if(userSearchChoice === "yes"){
+       searchByTraits(filteredPeople, people)
+     }
+      if (userSearchChoice === "no"){
+        foundPerson = filteredPeople[0];
+       }
+
+ // next step => conditional, length of filteredPeople
+ mainMenu(foundPerson, people);
 }
