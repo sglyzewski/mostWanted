@@ -38,45 +38,7 @@ function app(people){
   }
 }
 
-function searchByTraits(people) {
-  let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.", checkIfString());
-  let filteredPeople;
 
-  switch(userSearchChoice) {
-    case "height":
-      filteredPeople = searchByHeight(people);
-      alert(displayPeople(filteredPeople));
-      break;
-    case "weight":
-      filteredPeople = searchByWeight(people);
-      alert(displayPeople(filteredPeople));
-      break;
-    case "eye color":
-      filteredPeople = searchByEyeColor(people);
-      alert(displayPeople(filteredPeople));
-      break;
-    case "gender":
-      filteredPeople = searchByGender(people);
-      alert(displayPeople(filteredPeople));
-      break;
-    case "age":
-      filteredPeople = searchByAge(people);
-      alert(displayPeople(filteredPeople));
-      break;
-    case "occupation":
-      filteredPeople = searchByOccupation(people);
-      alert(displayPeople(filteredPeople));
-
-    default:
-      alert("You entered an invalid search type! Please try again.");
-      searchByTraits(people);
-      break;
-  }
-
-  let foundPerson = filteredPeople[0];
-
-  mainMenu(foundPerson, people);
-}
 
 function searchByWeight(people) {
   let userInputWeight = prompt("How much does the person weigh?");
@@ -382,8 +344,6 @@ function searchByTraits(people) {
      }
       if (userSearchChoice === "no"){
         foundPerson = filteredPeople[0];
-       }
 
- // next step => conditional, length of filteredPeople
  mainMenu(foundPerson, people);
 }
