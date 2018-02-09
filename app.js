@@ -53,6 +53,7 @@ function mainMenu(person, people){
       break;
     case "quit":
       return;
+      break;
     default:
       alert("You've entered invalid input. Let me take you back.");
       mainMenu(person, people);
@@ -221,7 +222,7 @@ function searchByWeight(people) {
 }
 
 function searchByOccupation(people){
-  let userInputOccupation = prompt("What is the person's occupation?");
+  let userInputOccupation = prompt("What is the person's occupation?").toLowerCase();
   let newArray = people.filter(function (el) {
     if(el.occupation == userInputOccupation) {
       return true;
@@ -301,6 +302,7 @@ function searchByTraits(people) {
      case "occupation":
        filteredPeople = searchByOccupation(people);
        alert(displayPeople(filteredPeople));
+       break;
      default:
       alert("You entered an invalid search type! Please try again.");
       searchByTraits(people);
@@ -315,10 +317,7 @@ function searchByTraits(people) {
       mainMenu(foundPerson, people);
     }
     if (userSearchChoice === "no" && filteredPeople.length > 1) {
-       alert("We have narrowed it down to this group: \n\n"  + displayPeople(filteredPeople) );
+       alert("We have narrowed it down to this group: \n\n"  + displayPeople(filteredPeople) +"\n\n We'll send you back to the start now to search any of these people by name.");
        app(people);
-     }
-     else {
-       app(people);
-     }
+    }
  }
